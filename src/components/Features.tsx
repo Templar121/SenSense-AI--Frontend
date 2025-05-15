@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 const features = [
   {
     name: 'Sentiment Prediction',
-    description: 'Quickly determine if text has a positive, negative, or neutral sentiment.',
+    description: 'Quickly determine if text has a positive or negative sentiment.',
     icon: <Gauge className="h-6 w-6" />
   },
   {

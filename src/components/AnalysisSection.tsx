@@ -38,8 +38,8 @@ const AnalysisSection: React.FC = () => {
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold text-neutral-900 mb-4">Sentiment Analysis Tool</h2>
           <p className="text-neutral-600 max-w-2xl mx-auto">
-            Enter any text to analyze its sentiment. Our AI will determine if the text has a positive, 
-            negative, or neutral tone and provide a detailed breakdown of influential words.
+            Enter any text to analyze its sentiment. Our AI will determine if the text has a positive or 
+            negative tone and provide a detailed breakdown of influential words.
           </p>
         </div>
         
