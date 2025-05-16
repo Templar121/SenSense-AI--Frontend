@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SendHorizontal, RefreshCw } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -9,6 +9,43 @@ interface TextInputProps {
 
 const TextInput: React.FC<TextInputProps> = ({ onSubmit, isLoading }) => {
   const [text, setText] = useState('');
+  const [loadingDots, setLoadingDots] = useState('');
+  const [loadingMessage, setLoadingMessage] = useState('Analyzing');
+  const [loadingTime, setLoadingTime] = useState(0);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    let timeInterval: NodeJS.Timeout;
+
+    if (isLoading) {
+      // Animate loading dots
+      interval = setInterval(() => {
+        setLoadingDots(prev => prev.length >= 3 ? '' : prev + '.');
+      }, 500);
+
+      // Track loading time
+      timeInterval = setInterval(() => {
+        setLoadingTime(prev => {
+          const newTime = prev + 1;
+          // Update loading message based on time elapsed
+          if (newTime > 10) {
+            setLoadingMessage('Processing long text');
+          } else if (newTime > 5) {
+            setLoadingMessage('Still analyzing');
+          }
+          return newTime;
+        });
+      }, 1000);
+    } else {
+      setLoadingTime(0);
+      setLoadingMessage('Analyzing');
+    }
+
+    return () => {
+      clearInterval(interval);
+      clearInterval(timeInterval);
+    };
+  }, [isLoading]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,6 +77,11 @@ const TextInput: React.FC<TextInputProps> = ({ onSubmit, isLoading }) => {
             className="w-full h-32 p-4 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition"
             disabled={isLoading}
           />
+          {text && (
+            <div className="mt-2 text-sm text-neutral-600">
+              Characters: {text.length}
+            </div>
+          )}
         </div>
         
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
@@ -63,15 +105,15 @@ const TextInput: React.FC<TextInputProps> = ({ onSubmit, isLoading }) => {
             whileTap={{ scale: 0.95 }}
             type="submit"
             disabled={!text.trim() || isLoading}
-            className={`px-6 py-2 rounded-lg flex items-center justify-center text-white font-medium transition
+            className={`px-6 py-2 rounded-lg flex items-center justify-center text-white font-medium min-w-[200px] transition
               ${!text.trim() || isLoading 
                 ? 'bg-neutral-400 cursor-not-allowed' 
-                : 'bg-primary-600 hover:bg-primary-700'}`}
+                : 'bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-500 hover:to-secondary-500'}`}
           >
             {isLoading ? (
               <>
                 <RefreshCw className="w-5 h-5 mr-2 animate-spin" />
-                Analyzing...
+                <span className="min-w-[120px]">{loadingMessage}{loadingDots}</span>
               </>
             ) : (
               <>

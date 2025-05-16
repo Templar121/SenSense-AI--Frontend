@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import AnalysisSection from './components/AnalysisSection';
 import Features from './components/Features';
+import AccuracyMetrics from './components/AccuracyMetrics';
 import Footer from './components/Footer';
 import { checkApiStatus } from './services/api';
 import { AlertCircle, RefreshCw } from 'lucide-react';
@@ -27,7 +28,6 @@ function App() {
     
     checkStatus();
 
-    // Retry logic - attempt to reconnect every 30 seconds up to 3 times
     const retryInterval = setInterval(() => {
       if (apiStatus === 'error' && retryCount < 3) {
         checkStatus();
@@ -69,7 +69,10 @@ function App() {
             <p className="text-gray-600">Connecting to the sentiment analysis service...</p>
           </div>
         ) : (
-          <AnalysisSection />
+          <>
+            <AnalysisSection />
+            <AccuracyMetrics />
+          </>
         )}
         <Features />
       </main>

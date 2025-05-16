@@ -10,7 +10,6 @@ interface SentimentAnalysisProps {
 const SentimentAnalysis: React.FC<SentimentAnalysisProps> = ({ analysis }) => {
   const { explanation } = analysis;
   
-  // Sort words by absolute contribution value for better visualization
   const sortedExplanation = [...explanation].sort((a, b) => 
     Math.abs(b.contribution) - Math.abs(a.contribution)
   );
@@ -18,13 +17,13 @@ const SentimentAnalysis: React.FC<SentimentAnalysisProps> = ({ analysis }) => {
   const getBarColor = (contribution: number) => {
     const absContribution = Math.abs(contribution);
     if (contribution > 0) {
-      if (absContribution > 0.3) return 'bg-success-600';
-      if (absContribution > 0.2) return 'bg-success-500';
-      return 'bg-success-400';
+      if (absContribution > 0.3) return 'bg-emerald-600';
+      if (absContribution > 0.2) return 'bg-green-500';
+      return 'bg-teal-400';
     } else {
-      if (absContribution > 0.3) return 'bg-error-600';
-      if (absContribution > 0.2) return 'bg-error-500';
-      return 'bg-error-400';
+      if (absContribution > 0.3) return 'bg-rose-600';
+      if (absContribution > 0.2) return 'bg-red-500';
+      return 'bg-pink-400';
     }
   };
 
@@ -64,7 +63,7 @@ const SentimentAnalysis: React.FC<SentimentAnalysisProps> = ({ analysis }) => {
                 >
                   <div className="flex items-center gap-4">
                     <div className="w-24 text-right">
-                      <span className="font-medium text-sm">{item.word}</span>
+                      <span className="font-medium text-sm text-neutral-700">{item.word}</span>
                     </div>
                     
                     <div className="flex-1 h-8 bg-neutral-100 rounded-lg overflow-hidden flex items-center">
@@ -72,7 +71,7 @@ const SentimentAnalysis: React.FC<SentimentAnalysisProps> = ({ analysis }) => {
                         className={`h-full ${getBarColor(item.contribution)} transition-all duration-500 flex items-center`}
                         style={{ width: `${contributionPercentage}%` }}
                       >
-                        <span className="px-2 text-white text-sm whitespace-nowrap">
+                        <span className="px-2 text-black text-sm font-medium whitespace-nowrap">
                           {isPositive ? (
                             <TrendingUp className="w-4 h-4 inline-block mr-1" />
                           ) : (
@@ -84,7 +83,7 @@ const SentimentAnalysis: React.FC<SentimentAnalysisProps> = ({ analysis }) => {
                     </div>
                     
                     <div className="w-32">
-                      <span className={`text-sm ${isPositive ? 'text-success-600' : 'text-error-600'}`}>
+                      <span className={`text-sm font-medium ${isPositive ? 'text-emerald-600' : 'text-rose-600'}`}>
                         {getContributionDescription(item.contribution)}
                       </span>
                     </div>
@@ -95,39 +94,39 @@ const SentimentAnalysis: React.FC<SentimentAnalysisProps> = ({ analysis }) => {
           </div>
           
           <div className="mt-8 pt-4 border-t border-neutral-200">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <h3 className="text-sm font-medium text-neutral-700 mb-2">Positive Impact</h3>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded bg-success-600"></div>
-                    <span className="text-sm">Very High Impact (&gt;30%)</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="bg-neutral-50 p-4 rounded-lg">
+                <h3 className="text-sm font-semibold text-neutral-800 mb-3">Positive Impact</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 rounded bg-emerald-600"></div>
+                    <span className="text-sm font-medium text-neutral-700">Very High Impact (&gt;30%)</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded bg-success-500"></div>
-                    <span className="text-sm">High Impact (20-30%)</span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 rounded bg-green-500"></div>
+                    <span className="text-sm font-medium text-neutral-700">High Impact (20-30%)</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded bg-success-400"></div>
-                    <span className="text-sm">Moderate Impact (&lt;20%)</span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 rounded bg-teal-400"></div>
+                    <span className="text-sm font-medium text-neutral-700">Moderate Impact (&lt;20%)</span>
                   </div>
                 </div>
               </div>
               
-              <div>
-                <h3 className="text-sm font-medium text-neutral-700 mb-2">Negative Impact</h3>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded bg-error-600"></div>
-                    <span className="text-sm">Very High Impact (&gt;30%)</span>
+              <div className="bg-neutral-50 p-4 rounded-lg">
+                <h3 className="text-sm font-semibold text-neutral-800 mb-3">Negative Impact</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 rounded bg-rose-600"></div>
+                    <span className="text-sm font-medium text-neutral-700">Very High Impact (&gt;30%)</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded bg-error-500"></div>
-                    <span className="text-sm">High Impact (20-30%)</span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 rounded bg-red-500"></div>
+                    <span className="text-sm font-medium text-neutral-700">High Impact (20-30%)</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded bg-error-400"></div>
-                    <span className="text-sm">Moderate Impact (&lt;20%)</span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 rounded bg-pink-400"></div>
+                    <span className="text-sm font-medium text-neutral-700">Moderate Impact (&lt;20%)</span>
                   </div>
                 </div>
               </div>
