@@ -78,12 +78,12 @@ const Navbar: React.FC = () => {
                 About
               </a>
               <a
-                href="https://github.com/yourusername"
+                href="https://subhayanmukherjee.netlify.app/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block px-4 py-2 rounded-lg bg-gradient-to-r from-primary-600 to-secondary-600 text-white hover:from-primary-500 hover:to-secondary-500 transition-all"
               >
-                My Projects
+                Know more about Me
               </a>
             </div>
           </motion.div>
